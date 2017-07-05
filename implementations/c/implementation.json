@@ -44,9 +44,13 @@
         { "suite-root": "/implementations/c/common_rand.c"}
     ],
     "include-directories":[
-        {"file": "./common/"},
-        {"suite-root": "/implementations/c/"}
+        {"file": "./common/"}
     ],
+    "dependencies": [
+    {
+        "source": "https://github.com/Sable/ostrich-c-implementation-common.git",
+        "destination": "./common"
+    }],
     "compilation-flags": [
         "-DSERIAL",
         "-std=c99"
