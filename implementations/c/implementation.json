@@ -37,20 +37,21 @@
         }
     ],
     "libraries":[
-        { "file": "./common/common.c" },
-        { "file": "./common/sparse_formats.c" },
-        { "file": "./common/common_args_serial.c" },
-        { "file": "./common/ziggurat.c" },
-        { "suite-root": "/implementations/c/common_rand.c"}
+        { "file": "./common.c" },
+        { "file": "./sparse_formats.c" },
+        { "file": "./common_args_serial.c" },
+        { "file": "./ziggurat.c" },
+        { "file": "./common/common_rand.c"}
     ],
     "include-directories":[
-        {"file": "./common/"}
+        {"file": "./common"}
     ],
-    "dependencies": [
-    {
-        "source": "https://github.com/Sable/ostrich-c-implementation-common.git",
-        "destination": "./common"
-    }],
+    "dependencies":[
+        {
+            "source": "https://github.com/Sable/ostrich-c-implementation-common.git",
+            "destination": "./common"
+        }
+    ],
     "compilation-flags": [
         "-DSERIAL",
         "-std=c99"
