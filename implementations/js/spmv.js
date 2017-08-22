@@ -260,7 +260,7 @@ function spmv_csr(matrix, dim, rowv, colv, v, y, out) {
     }
 }
 
-function run (dim, density, stddev, iterations) {
+function runner (dim, density, stddev, iterations) {
     var m = generateRandomCSR(dim, density, stddev);
     var v = new Float32Array(dim);
     var y = new Float32Array(dim);

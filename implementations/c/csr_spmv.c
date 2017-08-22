@@ -27,8 +27,8 @@
 #define SERIAL
 #endif
 
-#include "../common/sparse_formats.h"
-#include "../common/common.h"
+#include "sparse_formats.h"
+#include "common.h"
 #include <getopt.h>
 #include <stdlib.h>
 /**
