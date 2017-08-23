@@ -40,7 +40,7 @@ Array = function(dim) {
  */
 function Ziggurat() {
 
-    var jsr = 123456789;
+    var jsr = 10000;
 
     var wn = Array(128);
     var fn = Array(128);
@@ -89,14 +89,16 @@ function Ziggurat() {
         var jz = jsr;
         var jzr = jsr;
         jzr ^= (jzr << 13);
+        jzr = (jzr >>> 0);
         jzr ^= (jzr >>> 17);
         jzr ^= (jzr << 5);
+        jzr = (jzr >>> 0);
         jsr = jzr;
         return (jz+jzr) | 0;
     }
 
     function UNI() {
-        return 0.5 * (1 + SHR3() / -Math.pow(2,31));
+        return (0.5 + SHR3() / Math.pow(2,32)) % 1.0;
     }
 
     function zigset() {
@@ -139,7 +141,7 @@ function genRand(lb, hb) {
     if(lb < 0 || hb < 0 || hb < lb) return 0;
 
     var range = hb - lb + 1;
-    return (rand() % range) + lb;
+    return (Math.commonRandom() % range) + lb;
 }
 
 function rand() {
@@ -189,10 +191,9 @@ function generateRandomCSR(dim, density, stddev) {
      nnz_ith_row_double = randNorm();
      nnz_ith_row_double *= m.stdev;
      nnz_ith_row_double += m.nz_per_row;
-
      if(nnz_ith_row_double < 0) nnz_ith_row = 0;
      else if (nnz_ith_row_double > high_bound) nnz_ith_row = high_bound;
-     else nnz_ith_row = Math.abs(Math.round(nnz_ith_row_double));
+     else nnz_ith_row = Math.round(nnz_ith_row_double);
 
      m.Arow[i+1] = m.Arow[i] + nnz_ith_row;
 
@@ -208,7 +209,7 @@ function generateRandomCSR(dim, density, stddev) {
      }
 
      for(j=0; j<nnz_ith_row; ++j) {
-         rand_col = genRand(0, m.num_cols -1);
+         rand_col = Math.abs(genRand(0, m.num_cols -1));
          if(used_cols[rand_col]) {
              --j;
          }
@@ -236,9 +237,9 @@ function generateRandomCSR(dim, density, stddev) {
 
     m.Ax = new Float32Array(m.num_nonzeros);
     for(i=0; i<m.num_nonzeros; ++i) {
-        m.Ax[i] = randf();
+        m.Ax[i] = 1.0 - 2.0 * Math.commonRandomJS();
         while(m.Ax[i] === 0.0)
-            m.Ax[i] = randf();
+            m.Ax[i] = 1.0 - 2.0 * Math.commonRandomJS();
     }
     return m;
 }
@@ -265,7 +266,7 @@ function runner (dim, density, stddev, iterations) {
     var v = new Float32Array(dim);
     var y = new Float32Array(dim);
     var out = new Float32Array(dim);
-    ArrayOld.prototype.forEach.call(v, function(n, i, a) { a[i] = randf(); });
+    ArrayOld.prototype.forEach.call(v, function(n, i, a) { a[i] = Math.commonRandomJS(); });
 
     var t1 =  performance.now();
     for(var i = 0; i < iterations; ++i) spmv_csr(m.Ax, dim, m.Arow, m.Acol, v, y, out);

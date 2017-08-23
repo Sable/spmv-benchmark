@@ -66,7 +66,7 @@ int main(int argc, char *argv[]){
     int opt, option_index=0;
     unsigned int dim=1024, density=5000;
     double normal_stdev=0.01;
-    unsigned long seed = 10000;
+    unsigned int seed = 10000;
     float *v;
     stopwatch sw;
     unsigned int iterations = 1;
