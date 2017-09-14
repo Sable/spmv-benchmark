@@ -23,7 +23,6 @@
  * SOFTWARE.
  */
 var ndarray = require('ndarray')
-var ops = require('ndarray-ops')
 
 if (typeof performance === "undefined") {
     performance = Date;
