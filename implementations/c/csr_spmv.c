@@ -29,8 +29,28 @@
 
 #include "sparse_formats.h"
 #include "./common/common.h"
+#include "./common/common_rand.h"
 #include <getopt.h>
 #include <stdlib.h>
+
+func_ret_t create_vector_from_random(float **vp, int size) {
+  float *v;
+  int i;
+
+  srand(time(NULL));
+
+  v = (float *) malloc(size*sizeof(float));
+  if( v == NULL){
+    return RET_FAILURE;
+  }
+
+  for(i = 0; i < size; ++i){
+    v[i] = common_randJS();
+  }
+
+  *vp = v;
+  return RET_SUCCESS;
+}
 /**
  * Sparse Matrix-Vector Multiply
  *
