@@ -91,6 +91,6 @@ unsigned long gen_rand(const long LB, const long HB);
  * NNZ / N and a standard deviation equal to this mean scaled by normal_stddev. A corresponding number of column
  * indices is then randomly generated from a normal distribution.
  */
-csr_matrix rand_csr(const unsigned int N,const unsigned int density,const double normal_stddev,unsigned long* seed,FILE* log);
+csr_matrix rand_csr(const unsigned int N,const unsigned int density,const double normal_stddev,unsigned int* seed,FILE* log);
 
 #endif

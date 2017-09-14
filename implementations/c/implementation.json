@@ -37,7 +37,7 @@
         }
     ],
     "libraries":[
-        { "file": "./common.c" },
+        { "file": "./common/common.c" },
         { "file": "./sparse_formats.c" },
         { "file": "./common_args_serial.c" },
         { "file": "./ziggurat.c" },

@@ -19,7 +19,7 @@ unsigned long gen_rand(const long LB, const long HB) {
     return (common_rand() % range) + LB;
 }
 
-csr_matrix rand_csr(const unsigned int N,const unsigned int density, const double normal_stddev,unsigned long* seed,FILE* log)
+csr_matrix rand_csr(const unsigned int N,const unsigned int density, const double normal_stddev,unsigned int* seed,FILE* log)
 {
     unsigned int i,j,nnz_ith_row,nnz,update_interval,rand_col;
     double nnz_ith_row_double,nz_error,nz_per_row_doubled,high_bound;
@@ -51,7 +51,7 @@ csr_matrix rand_csr(const unsigned int N,const unsigned int density, const doubl
     check(used_cols != NULL,"rand_csr() - Heap Overflow! Cannot allocate space for used_cols");
 
     r4_nor_setup(kn,fn,wn);
-    srand(*seed);
+    //srand(*seed);
 
     update_interval = round(csr.num_rows / 10.0);
     if(!update_interval) update_interval = csr.num_rows;

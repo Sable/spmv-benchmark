@@ -28,9 +28,29 @@
 #endif
 
 #include "sparse_formats.h"
-#include "common.h"
+#include "./common/common.h"
+#include "./common/common_rand.h"
 #include <getopt.h>
 #include <stdlib.h>
+
+func_ret_t create_vector_from_random(float **vp, int size) {
+  float *v;
+  int i;
+
+  srand(time(NULL));
+
+  v = (float *) malloc(size*sizeof(float));
+  if( v == NULL){
+    return RET_FAILURE;
+  }
+
+  for(i = 0; i < size; ++i){
+    v[i] = common_randJS();
+  }
+
+  *vp = v;
+  return RET_SUCCESS;
+}
 /**
  * Sparse Matrix-Vector Multiply
  *
@@ -39,7 +59,7 @@
 void spmv_csr_cpu(const csr_matrix* csr,const float* x,const float* y,float* out)
 {
     unsigned int row,row_start,row_end,jj;
-    float sum = 0;
+    float sum = 0.0;
     for(row=0; row < csr->num_rows; row++)
     {
         sum = y[row];
@@ -66,7 +86,7 @@ int main(int argc, char *argv[]){
     int opt, option_index=0;
     unsigned int dim=1024, density=5000;
     double normal_stdev=0.01;
-    unsigned long seed = 10000;
+    unsigned int seed = 10000;
     float *v;
     stopwatch sw;
     unsigned int iterations = 1;
@@ -104,10 +124,12 @@ int main(int argc, char *argv[]){
     for(i=0; i< iterations; ++i) spmv_csr_cpu(&sm,v,sum, result);
     stopwatch_stop(&sw);
 
-    fprintf(stderr, "The first value of the result is %lf\n", result[0]);
-    printf("{ \"status\": %d, \"options\": \"-n %d -d %d -s %f\", \"time\": %f }\n", 1, dim, density, normal_stdev, get_interval_by_sec(&sw));
+    int Ajlen = (double)dim*dim*density/1000000.0;
+
+    printf("{ \"status\": %d, \"options\": \"-n %d -d %d -s %f\", \"time\": %f, \"output\": {\"row_ptr\": %d, \"col\": %d, \"val\": %d, \"x\": %d, \"y\": %d} }\n", 1, dim, density, normal_stdev, get_interval_by_sec(&sw), fletcher_sum_1d_array_int(sm.Ap, dim+1), fletcher_sum_1d_array_int(sm.Aj, Ajlen), fletcher_sum_1d_array_float(sm.Ax, sm.num_nonzeros), fletcher_sum_1d_array_float(v, dim), fletcher_sum_1d_array_float(result, dim));
 
     free(sum);
     free(result);
     free(v);
+
 }
