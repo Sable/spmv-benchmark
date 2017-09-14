@@ -25,7 +25,8 @@
         }
     ],
     "libraries":[
-        { "file": "./common/common_rand.js"}
+        { "file": "./common/common_rand.js"},
+        { "file": "./common/fletcher_sum.js"}
     ],
     "dependencies":
     [

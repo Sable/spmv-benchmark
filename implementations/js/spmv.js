@@ -22,6 +22,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+var ndarray = require('ndarray')
+var ops = require('ndarray-ops')
 
 if (typeof performance === "undefined") {
     performance = Date;
@@ -246,7 +248,7 @@ function generateRandomCSR(dim, density, stddev) {
 
 function spmv_csr(matrix, dim, rowv, colv, v, y, out) {
     var row, row_start, row_end, jj;
-    var sum = 0;
+    var sum = 0.0;
 
     for(row=0; row< dim; ++row){
         sum = y[row];
@@ -254,7 +256,7 @@ function spmv_csr(matrix, dim, rowv, colv, v, y, out) {
         row_end = rowv[row+1];
 
         for(jj = row_start; jj<row_end; ++jj){
-            sum += matrix[jj] * v[colv[jj]];
+            sum = Math.fround(sum) + Math.fround(matrix[jj] * v[colv[jj]]);
         }
 
         out[row] = sum;
@@ -272,8 +274,15 @@ function runner (dim, density, stddev, iterations) {
     for(var i = 0; i < iterations; ++i) spmv_csr(m.Ax, dim, m.Arow, m.Acol, v, y, out);
     var t2 = performance.now();
 
-    console.log("The total time for the spmv is " + (t2-t1)/1000 + " seconds");
     console.log(JSON.stringify({ status: 1,
              options: "run(" + [dim, density, stddev].join(",") + ")",
-             time: (t2 - t1) / 1000 }))
+             time: (t2 - t1) / 1000,
+             output: {
+             row_ptr: parseInt(parseInt(fletcher_sum_ndarray(ndarray(m.Arow)))),
+             col: parseInt(parseInt(fletcher_sum_ndarray(ndarray(m.Acol)))),
+             val: parseInt(parseInt(fletcher_sum_ndarray(ndarray(m.Ax)))),
+             x: parseInt(parseInt(fletcher_sum_ndarray(ndarray(v)))),
+             y: parseInt(parseInt(fletcher_sum_ndarray(ndarray(out))))
+             }
+             }))
 }

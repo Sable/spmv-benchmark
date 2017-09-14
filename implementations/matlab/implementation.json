@@ -6,11 +6,46 @@
     "core-source-files":[
        { "file": "./spmv_core.m"},
        { "file": "./runner_loop.m"},
-       { "file": "./spmv_core_loop.m"}
+       { "file": "./spmv_core_loop.m"},
+       { "file": "./gen_rand.m"}
     ],
     "runner-source-file": { "file": "./runner.m" },
     "runner-arguments": [
-        { "expand": "/experiment/input-size" }
+       {
+            "expand": "/experiment/input-size",
+            "path": "/dimensions"
+       },
+       {
+            "expand": "/experiment/input-size",
+            "path": "/density"
+       },
+       {
+            "expand": "/experiment/input-size",
+            "path": "/standard-deviation"
+       },
+       {
+            "expand": "/experiment/input-size",
+            "path": "/iterations"
+       }
+
     ],
-    "libraries":[]
+    "libraries":[
+       { "file": "./common/fletcherSum.m" },
+       { "file": "./common/commonRandom.m" },
+       { "file": "./common/commonRandomJS.m" },
+       { "file": "./common/setRandomSeed.m" },
+       { "file": "./ziggurat/r4_exp.m"},
+       { "file": "./ziggurat/r4_exp_setup.m"},
+       { "file": "./ziggurat/r4_nor.m"},
+       { "file": "./ziggurat/r4_nor_setup.m"},
+       { "file": "./ziggurat/r4_uni.m"},
+       { "file": "./ziggurat/shr3.m"}
+    ],
+    "dependencies": [
+        {
+            "source": "https://github.com/Sable/ostrich-matlab-implementation-common.git",
+            "destination": { "file": "./common" }
+        }
+    ]
+
 }

@@ -7,7 +7,7 @@
     "input-size":{
         "small": {
             "dimensions": 500,
-            "density": 100,
+            "density": 2000,
             "standard-deviation": 0.01,
             "iterations": 1
         },
@@ -25,5 +25,28 @@
         }
     },
     "random-seed":1337,
-    "dwarf": "sparse linear algebra"
+    "dwarf": "sparse linear algebra",
+    "expected-output": {
+         "small": {
+            "row_ptr": 12845,
+            "col": 1025,
+            "val": 33576,
+            "x": 634,
+            "y": 11990
+         },
+         "medium": {
+            "row_ptr": 4037,
+            "col": 23835,
+            "val": 44872,
+            "x": 62600,
+            "y": 45003
+         },
+         "large": {
+            "row_ptr": 7242,
+            "col": 21865,
+            "val": 58824,
+            "x": 22651,
+            "y": 54548
+         }
+    }
 }

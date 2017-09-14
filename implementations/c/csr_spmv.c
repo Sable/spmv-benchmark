@@ -28,7 +28,7 @@
 #endif
 
 #include "sparse_formats.h"
-#include "common.h"
+#include "./common/common.h"
 #include <getopt.h>
 #include <stdlib.h>
 /**
@@ -39,7 +39,7 @@
 void spmv_csr_cpu(const csr_matrix* csr,const float* x,const float* y,float* out)
 {
     unsigned int row,row_start,row_end,jj;
-    float sum = 0;
+    float sum = 0.0;
     for(row=0; row < csr->num_rows; row++)
     {
         sum = y[row];
@@ -104,10 +104,12 @@ int main(int argc, char *argv[]){
     for(i=0; i< iterations; ++i) spmv_csr_cpu(&sm,v,sum, result);
     stopwatch_stop(&sw);
 
-    fprintf(stderr, "The first value of the result is %lf\n", result[0]);
-    printf("{ \"status\": %d, \"options\": \"-n %d -d %d -s %f\", \"time\": %f }\n", 1, dim, density, normal_stdev, get_interval_by_sec(&sw));
+    int Ajlen = (double)dim*dim*density/1000000.0;
+
+    printf("{ \"status\": %d, \"options\": \"-n %d -d %d -s %f\", \"time\": %f, \"output\": {\"row_ptr\": %d, \"col\": %d, \"val\": %d, \"x\": %d, \"y\": %d} }\n", 1, dim, density, normal_stdev, get_interval_by_sec(&sw), fletcher_sum_1d_array_int(sm.Ap, dim+1), fletcher_sum_1d_array_int(sm.Aj, Ajlen), fletcher_sum_1d_array_float(sm.Ax, sm.num_nonzeros), fletcher_sum_1d_array_float(v, dim), fletcher_sum_1d_array_float(result, dim));
 
     free(sum);
     free(result);
     free(v);
+
 }
