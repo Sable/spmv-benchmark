@@ -126,7 +126,7 @@ int main(int argc, char *argv[]){
 
     int Ajlen = (double)dim*dim*density/1000000.0;
 
-    printf("{ \"status\": %d, \"options\": \"-n %d -d %d -s %f\", \"time\": %f, \"output\": {\"row_ptr\": %d, \"col\": %d, \"val\": %d, \"x\": %d, \"y\": %d} }\n", 1, dim, density, normal_stdev, get_interval_by_sec(&sw), fletcher_sum_1d_array_int(sm.Ap, dim+1), fletcher_sum_1d_array_int(sm.Aj, Ajlen), fletcher_sum_1d_array_float(sm.Ax, sm.num_nonzeros), fletcher_sum_1d_array_float(v, dim), fletcher_sum_1d_array_float(result, dim));
+    printf("{ \"status\": %d, \"options\": \"-n %d -d %d -s %f\", \"time\": %f, \"output\": {\"row_ptr\": %d, \"col\": %d, \"val\": %d, \"x\": %d, \"y\": %d} }\n", 1, dim, density, normal_stdev, get_interval_by_sec(&sw), fletcher_sum_1d_array_unsigned_int(sm.Ap, dim+1), fletcher_sum_1d_array_unsigned_int(sm.Aj, Ajlen), fletcher_sum_1d_array_float(sm.Ax, sm.num_nonzeros), fletcher_sum_1d_array_float(v, dim), fletcher_sum_1d_array_float(result, dim));
 
     free(sum);
     free(result);
