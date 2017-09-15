@@ -277,11 +277,11 @@ function runner (dim, density, stddev, iterations) {
              options: "run(" + [dim, density, stddev].join(",") + ")",
              time: (t2 - t1) / 1000,
              output: {
-             row_ptr: parseInt(parseInt(fletcher_sum_ndarray(ndarray(m.Arow)))),
-             col: parseInt(parseInt(fletcher_sum_ndarray(ndarray(m.Acol)))),
-             val: parseInt(parseInt(fletcher_sum_ndarray(ndarray(m.Ax)))),
-             x: parseInt(parseInt(fletcher_sum_ndarray(ndarray(v)))),
-             y: parseInt(parseInt(fletcher_sum_ndarray(ndarray(out))))
+             row_ptr: parseInt(fletcher_sum_ndarray(ndarray(m.Arow))),
+             col: parseInt(fletcher_sum_ndarray(ndarray(m.Acol))),
+             val: parseInt(fletcher_sum_ndarray(ndarray(m.Ax))),
+             x: parseInt(fletcher_sum_ndarray(ndarray(v))),
+             y: parseInt(fletcher_sum_ndarray(ndarray(out)))
              }
              }))
 }
